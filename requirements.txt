@@ -1,0 +1,26 @@
+fastapi
+uvicorn[standard]
+
+# Validação e Config
+pydantic
+python-dotenv
+
+# Auth (JWT)
+python-jose[cryptography]
+passlib[bcrypt]
+
+# Upload e leitura de arquivos
+python-multipart
+PyPDF2
+python-docx
+
+# NLP
+spacy
+
+# Banco de Dados
+sqlalchemy
+aiosqlite
+asyncpg
+
+# Utilidades
+uuid

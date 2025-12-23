@@ -8,14 +8,18 @@ router = APIRouter()
 
 UPLOAD_DIR = "uploads"
 
+ALLOWED_EXTENSIONS = [".pdf", ".docx"]
+
 
 @router.post("/upload-cv", summary="Upload de currículo (PDF ou DOCX)")
 async def upload_cv(file: UploadFile = File(...)):
-    if file.content_type not in [
-        "application/pdf",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-    ]:
-        raise HTTPException(status_code=400, detail="Formato de arquivo não suportado")
+    filename_lower = file.filename.lower()
+
+    if not any(filename_lower.endswith(ext) for ext in ALLOWED_EXTENSIONS):
+        raise HTTPException(
+            status_code=400,
+            detail="Formato de arquivo não suportado. Use PDF ou DOCX."
+        )
 
     analysis_id = str(uuid4())
     filename = f"{analysis_id}_{file.filename}"
@@ -24,6 +28,5 @@ async def upload_cv(file: UploadFile = File(...)):
 
     return {
         "analysis_id": analysis_id,
-        "filename": filename,
         "file_path": file_path
     }

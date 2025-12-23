@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
-from app.api.routes import upload
+from app.api.routes import upload, analysis
 
 app = FastAPI(
     title="SmartCV Analyzer API",
@@ -18,8 +17,6 @@ app.add_middleware(
 )
 
 app.include_router(upload.router, tags=["Upload"])
+app.include_router(analysis.router, tags=["Analysis"])
 
 
-@app.get("/health", tags=["Health"])
-async def health_check():
-    return {"status": "ok"}
